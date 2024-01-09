@@ -17,8 +17,8 @@ async function migrateData() {
     .on('data', (row) => {
       const streamerEntity = new Streamer();
       streamerEntity.channelName = row['Channel'];
-      streamerEntity.mature = row['Mature'];
-      streamerEntity.partnered = row['Partnered'];
+      streamerEntity.mature = row['Mature'] === 'TRUE' ? true : false;
+      streamerEntity.partnered = row['Partnered'] === 'TRUE' ? true : false;
       streamerEntity.language = row['Language'];
 
       const streamerStatsEntity = new StreamerStats();

@@ -32,6 +32,9 @@ $ npm run start:migration
 $ npm run start:dev
 ```
 
+## API Example
+GET http://127.0.0.1:3000/v1/api/streamer?limit=10
+
 ## API Documentation
 [Swagger](http://127.0.0.1:3000/api-docs)
 
