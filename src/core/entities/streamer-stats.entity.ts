@@ -1,14 +1,10 @@
-import { BaseEntity, Column, Entity, Index, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Streamer } from './streamer.entity';
 
 @Entity({ name: 'streamer-stats' })
 export class StreamerStats extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ name: 'channel_id', unique: true })
-  @Index()
-  channelId: string;
 
   @OneToOne(() => Streamer, (streamer) => streamer.stats)
   @JoinColumn()

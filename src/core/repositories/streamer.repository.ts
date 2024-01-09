@@ -6,9 +6,7 @@ import { Streamer } from '../entities/streamer.entity';
 
 @Injectable()
 export class StreamerRepository extends BaseRepository<Streamer> {
-  constructor(
-    @InjectRepository(Streamer) streamRepository: Repository<Streamer>,
-  ) {
+  constructor(@InjectRepository(Streamer) streamRepository: Repository<Streamer>) {
     super(streamRepository);
   }
 }

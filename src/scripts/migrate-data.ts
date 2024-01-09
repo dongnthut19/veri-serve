@@ -1,5 +1,3 @@
-// scripts/migrate-data.ts
-
 import { createConnection } from 'typeorm';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -32,7 +30,6 @@ async function migrateData() {
       streamerStatsEntity.viewsGained = parseInt(row['Views gained']);
       streamerStatsEntity.averageViewers = parseInt(row['Average viewers']);
 
-      // Maintain a 1:1 relationship
       streamerEntity.stats = streamerStatsEntity;
       streamerStatsEntity.streamer = streamerEntity;
 
@@ -40,7 +37,7 @@ async function migrateData() {
       streamerStatsData.push(streamerStatsEntity);
     })
     .on('end', async () => {
-      saveData(streamerData[0], streamerStatsData[0]);
+      await saveData(streamerData, streamerStatsData);
     });
 }
 

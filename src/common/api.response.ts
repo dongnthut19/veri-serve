@@ -1,7 +1,7 @@
 import { ClsServiceManager } from 'nestjs-cls';
 import { randomString } from 'src/util/string.util';
 
-export class ApiResponse {
+export class CommonApiResponse {
   code: number | string;
   message: string;
   data: any;
@@ -14,16 +14,16 @@ export class ApiResponse {
     this.traceId = traceId || '';
   }
 
-  static success(data?: any | 'Success'): ApiResponse {
-    return new ApiResponse(0, 'success', data, currentTraceId());
+  static success(data?: any | 'Success'): CommonApiResponse {
+    return new CommonApiResponse(0, 'success', data, currentTraceId());
   }
 
-  static successMessage(message?: string | 'success'): ApiResponse {
-    return new ApiResponse(0, message, null, currentTraceId());
+  static successMessage(message?: string | 'success'): CommonApiResponse {
+    return new CommonApiResponse(0, message, null, currentTraceId());
   }
 
-  static error(message?: string | 'error'): ApiResponse {
-    return new ApiResponse(500, message, null, currentTraceId());
+  static error(message?: string | 'error'): CommonApiResponse {
+    return new CommonApiResponse(500, message, null, currentTraceId());
   }
 }
 

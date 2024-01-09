@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TracingModule } from './tracing/tracing.module';
 import { StreamerModule } from './streamer/streamer.module';
 import { HttpExceptionFilter } from './common/http-exception.filter';
@@ -23,9 +21,8 @@ import { HttpExceptionFilter } from './common/http-exception.filter';
     }),
     StreamerModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,

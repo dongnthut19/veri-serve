@@ -1,37 +1,37 @@
 import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
-import { ApiResponse } from 'src/common/api.response';
-import { StreamerDto } from 'src/core/dtos/streamer.dto';
-import { StreamerStatsRepository } from 'src/core/repositories/streamer-stats.repository';
+import { CommonApiResponse } from 'src/common/api.response';
 import { StreamerRepository } from 'src/core/repositories/streamer.repository';
 
 @Injectable()
 export class StreamerService {
   logger = new Logger(StreamerService.name);
 
-  constructor(
-    private readonly streamerRepository: StreamerRepository,
-    private readonly statsRepository: StreamerStatsRepository,
-  ) {}
+  constructor(private readonly streamerRepository: StreamerRepository) {}
 
-  async getTopOfStreamer(limit: number): Promise<ApiResponse> {
+  /**
+   * Retrieves the top streamers based on watch time minutes.
+   *
+   * @param limit - The maximum number of streamers to retrieve. Default is 10.
+   * @returns A Promise containing ApiResponse with the top streamers.
+   */
+  async getTopOfStreamer(limit: number = 10): Promise<CommonApiResponse> {
     try {
-      // const topStreamers = await this.statsRepository
-      //   .createQueryBuilder('stats')
-      //   .select(['stats.ChannelID', 'MAX(stats.WatchTimeMinutes) as maxWatchTime'])
-      //   .groupBy('stats.ChannelID')
-      //   .orderBy('maxWatchTime', 'DESC')
-      //   .limit(limit)
-      //   .getRawMany();
+      // Define the tables to join and the order by criteria
+      const joinTables = [{ table: 'streamer.stats', joinTable: 'streamer-stats' }];
+      const orderBy: any = { column: 'streamer-stats.watchTimeMinutes', order: 'DESC' };
 
-      const conditions = { watchTimeMinutes: 1 };
-      // const selectedColumns = ['id', 'name', 'createdAt'];
-      const joinTables = [
-        { table: 'streamer-stats.streamer', joinTable: 'streamer' },
-      ];
-      const orderBy: any = { column: 'watchTimeMinutes', order: 'DESC' };
+      // Retrieve streamers based on the specified conditions
+      const streamers = await this.streamerRepository.findByCondition(
+        'streamer',
+        null,
+        joinTables,
+        null,
+        orderBy,
+        limit,
+      );
+      this.logger.log(`streamers: ${JSON.stringify(streamers)}`);
 
-      const streamers = await this.statsRepository.findByCondition(conditions, joinTables, null, orderBy, limit);
-      return ApiResponse.success();
+      return CommonApiResponse.success(streamers);
     } catch (error) {
       this.logger.error(`getTopOfStreamer get error: ${JSON.stringify(error.stack)}`);
       throw new InternalServerErrorException({

@@ -19,6 +19,6 @@ export class Streamer extends BaseEntity {
   @Column({ name: 'language' })
   language: string;
 
-  @OneToOne(() => StreamerStats, (streamerStats) => streamerStats.streamer, { cascade: true })
+  @OneToOne(() => StreamerStats, (streamerStats) => streamerStats.streamer)
   stats: StreamerStats;
 }
